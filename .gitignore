@@ -1,5 +1,7 @@
 bower_components
 src/assets/lib/rongsdk.js
+src/app.config.js
+build/
 node_modules
 build
 temp
