@@ -8,7 +8,6 @@ conversationServer.factory("conversationServer", ["$q", "mainDataServer", "mainS
     function ($q: any, mainDataServer: mainDataServer, mainServer: mainServer, RongIMSDKServer: RongIMSDKServer) {
 
         var conversationServer = <any>{};
-
         conversationServer.atMessagesCache = <any>{};
         conversationServer.historyMessagesCache = <any>{};
         conversationServer.conversationMessageList = <any>[];
@@ -382,6 +381,7 @@ conversationServer.factory("conversationServer", ["$q", "mainDataServer", "mainS
                     }
                 }
             }
+            // console.log(item)
             messageAddUserInfo(item);
             arr.push(item);
             //判断如果是当前会话的消息则加入
@@ -410,34 +410,17 @@ conversationServer.factory("conversationServer", ["$q", "mainDataServer", "mainS
 
         //消息里没有用户信息，要去本地的好友列表里查找
         function messageAddUserInfo(item: webimmodel.Message) {
-            // alert("11111111111111111111111111")
-            //console.log(mainDataServer.conversation.currentConversation.targetId);
-            //xyy   item.targetId
-
-            //      	if(mainDataServer.conversation.currentConversation.targetType == 3){
-            //      		if(item.content.content == "@所有人 管理员设置了全员禁言"){
-            //	    			$('#message-content').css('display','none');
-            //	        		$('.sendBtn').html("群主已设置全群禁言");
-            //	    		}else if(item.content.content == "@所有人 管理员取消了全员禁言"){
-            //	    			$('#message-content').css('display','block');
-            //	        		$('.sendBtn').html("发送");
-            //	    		}
-            //      	}
-            // console.log("item" + item);
-            // console.log(item);
-            // console.log(webimmodel);
+            console.log("11111111111111111111111111");
+            console.log(item);
+            // var _str = window["data"];            
+                     
             if (!item.senderUserId) {
                 return item;
             }
 
             var user: webimmodel.Contact;
-
             console.log("user=====" + user);
-
-            // RongIMLib.RongIMClient.setOnReceiveMessageListener(list:RongIMLib);
-
             var loginuserid = webimutil.CookieHelper.getCookie("loginuserid");
-
             //
             //console.log(loginuserid);
             if (mainDataServer.conversation.currentConversation.targetId == item.targetId) {
@@ -517,18 +500,12 @@ conversationServer.factory("conversationServer", ["$q", "mainDataServer", "mainS
                     item.senderUserImgSrc = user.firstchar;
                     item.imgSrc = user.imgSrc
                 } else {
-                    console.log("11111");
-                    console.log(item);
-                    // alert(item.senderUserName);
                     if (item.senderUserId == '__system__') {
                         return;
-                    }
-                    item.senderUserName ="77";
-                    // senderUserName  这个为空
-              
+                    }         
                     if (item.senderUserId != null && item.senderUserName != null) {
-                        item.senderUserName = userinfo.name; 
-                        // item.senderUserImgSrc = webimutil.ChineseCharacter.getPortraitChar(item.senderUserImgSrc);
+                        item.senderUserName = item.senderUserName; 
+                        item.senderUserImgSrc = item.senderUserImgSrc;
                         item.imgSrc = item.senderUserImgSrc; 
                         var _friend = new webimmodel.Friend({
                             id: item.senderUserId,
@@ -537,12 +514,11 @@ conversationServer.factory("conversationServer", ["$q", "mainDataServer", "mainS
                         });
                         _friend.firstchar = item.senderUserImgSrc;
                         mainDataServer.contactsList.addNonFriend(_friend);
-
                     }
                     
-                    console.log("无此用户1:" + item.senderUserId);
-                    console.log("无此用户2:" + item.senderUserName);
-                    console.log("无此用户3:" + item.senderUserImgSrc);
+                    // console.log("无此用户1:" + item.senderUserId);
+                    // console.log("无此用户2:" + item.senderUserName);
+                    // console.log("无此用户3:" + item.senderUserImgSrc);
 
                     // mainServer.user.getInfoS(item.senderUserId).success(function (rep) {
                     //     console.log("12345")
@@ -579,6 +555,8 @@ conversationServer.factory("conversationServer", ["$q", "mainDataServer", "mainS
             }
             return item;
         }
+
+
 
         function updateHistoryMessagesCache(id: string, type: string, name: string, portrait: string) {
             var currenthis = conversationServer.historyMessagesCache[type + "_" + id];

@@ -215,7 +215,12 @@ module webimmodel {
         isRead: boolean
         receiptResponse: any;
 
-        constructor(content?: any, conversationType?: string, extra?: string, objectName?: string, messageDirection?: MessageDirection, messageId?: string, receivedStatus?: ReceivedStatus, receivedTime?: number, senderUserId?: string, sentStatus?: SentStatus, sentTime?: number, targetId?: string, messageType?: string) {
+        constructor(content?: any, 
+            conversationType?: string, 
+            extra?: string, 
+            objectName?: string, messageDirection?: MessageDirection, 
+            messageId?: string, receivedStatus?: ReceivedStatus, receivedTime?: number, 
+            senderUserId?: string, sentStatus?: SentStatus, sentTime?: number, targetId?: string, messageType?: string) {
             super(PanelType.Message);
         }
         static convertMsg(SDKmsg: any) {
@@ -234,14 +239,18 @@ module webimmodel {
             msg.sentTime = new Date(SDKmsg.sentTime);
             msg.targetId = SDKmsg.targetId;
             msg.messageType = SDKmsg.messageType;
-            
-			//console.log(msg);
+            if(SDKmsg.content.user.name){
+                msg.senderUserName = SDKmsg.content.user.name;
+                msg.senderUserImgSrc = SDKmsg.content.user.portrait; 
+            }
+                    
+			
 			
             switch (msg.messageType) {
-                case MessageType.TextMessage:
-                
+                case MessageType.TextMessage:                
                     var texmsg = new TextMessage();
                     var content = SDKmsg.content.content;
+                    // var userInfo = SDKmsg.content.userInfo;
                     content = content.replace(/</gi, '&lt;').replace(/>/gi, '&gt;');
                     if (RongIMLib.RongIMEmoji && RongIMLib.RongIMEmoji.emojiToHTML) {
                         content = RongIMLib.RongIMEmoji.emojiToHTML(content);

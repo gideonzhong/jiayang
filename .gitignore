@@ -1,11 +1,9 @@
 bower_components
-src/app.config.js
 src/assets/lib/rongsdk.js
-build/
 node_modules
 build
 temp
 typings
 .tscache
 *.log
-
+src/test.html

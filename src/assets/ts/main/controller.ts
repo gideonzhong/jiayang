@@ -745,12 +745,14 @@ mainCtr.controller("mainController", ["$scope", "$state", "$window", "$timeout",
 
             onReceived: function (data: RongIMLib.Message) {
                 // console.log(data);
-                var _str = JSON.stringify(data.content);
+                // var _str = JSON.stringify(data.content);
                 // console.log(_str);
-                var _str2 = JSON.parse(_str);
-                console.log(_str2.user.id);
-                console.log(_str2.user.name);
-                console.log(_str2.user.portrait);
+                // window["data"] = _str;
+
+                // var _str2 = JSON.parse(_str);
+                // console.log(_str2.user.id);
+                // console.log(_str2.user.name);
+                // console.log(_str2.user.portrait);
              
                 // return false; 
                 // mainDataServer.loginUser.nickName = _str2.user.name;
